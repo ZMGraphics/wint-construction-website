@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Scott's Landscape brand colors (matching AA Fencing)
-// Primary green: #1f8b2e
-// Dark bg: #000000 / #111111
-// Light text: #ffffff
-// Content text: #1c1c1c
+// Warm industrial palette — slate charcoal + amber gold accent
+// Distinct from AA Fencing's green/black scheme
+const ACCENT = "#d4a24e";
+const ACCENT_HOVER = "#c4922e";
+const DARK = "#1a1a1a";
+const DARKER = "#111";
+const LIGHT_BG = "#f7f5f2";
+const WARM_GRAY = "#e8e4df";
+const TEXT = "#2c2c2c";
 
 const BUSINESS_INFO = {
   established: 1992,
@@ -38,190 +42,258 @@ const GALLERY_PHOTOS = [
   { src: "/images/site/concrete-10.jpg", alt: "Concrete slab project — Wint Construction, Rochester NY" }
 ];
 
-export default function WintConstructionSite() {
-  const [sliderPos, setSliderPos] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
-  const [lightboxIdx, setLightboxIdx] = useState(null);
+const SERVICES = [
+  {
+    img: "/images/site/concrete-services.jpg",
+    title: "Concrete Flatwork",
+    desc: "Driveways, sidewalks, patios, pool surrounds, and garage pads. We pour thick, reinforced slabs with proper sub-base prep. Every pour uses wet concrete mix — never dry dumps into dry holes. Built to handle Rochester's freeze-thaw cycles without cracking.",
+    tags: ["Driveways", "Patios", "Sidewalks", "Pool Surrounds"]
+  },
+  {
+    img: "/images/site/concrete-patio.jpg",
+    title: "Stamped & Decorative",
+    desc: "Professional stamped patterns that mimic natural stone, brick, and slate. Brushed finishes for slip resistance around pools. Integral color options to match your home exterior. Custom decorative stone installations and pillars.",
+    tags: ["Stamped", "Brushed", "Colored", "Stone"]
+  },
+  {
+    img: "/images/site/inner-banner.jpg",
+    title: "Excavation & Site Prep",
+    desc: "Bobcat excavation, lot grading, and complete site prep for new builds and renovations. Pool removals, fill-ins, and re-seeding. We handle the dirt work so your concrete has a proper foundation underneath it.",
+    tags: ["Bobcat", "Grading", "Pool Removal", "Fill-In"]
+  }
+];
 
-  const handleMove = (clientX, currentTarget) => {
-    const rect = currentTarget.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPos(percentage);
-  };
+export default function WintConstructionSite() {
+  const [lightboxIdx, setLightboxIdx] = useState(null);
+  const [activeService, setActiveService] = useState(0);
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5] text-[#1c1c1c] antialiased selection:bg-[#1f8b2e] selection:text-white pb-24 lg:pb-0">
+    <div className={`min-h-screen bg-[${LIGHT_BG}] text-[${TEXT}] antialiased`} style={{ background: LIGHT_BG, color: TEXT }}>
 
-      {/* HEADER NAVBAR */}
-      <header className="sticky top-0 z-40 w-full bg-black/95 backdrop-blur-md border-b border-white/10 py-4 px-4 sm:px-8 flex justify-between items-center">
+      {/* ═══ TOP BAR ═══ */}
+      <div className="w-full bg-[#1a1a1a] text-white/50 text-[10px] tracking-widest uppercase py-2 px-4 text-center hidden sm:block">
+        Scott's Landscape & Fence Family of Companies &nbsp;•&nbsp; Serving Rochester & Western NY Since 1992 &nbsp;•&nbsp; Licensed & Insured
+      </div>
+
+      {/* ═══ HEADER ═══ */}
+      <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-black/8 py-4 px-4 sm:px-8 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-28 border-2 border-dashed border-[#1f8b2e]/60 rounded flex items-center justify-center text-[10px] text-[#1f8b2e] font-semibold tracking-wider uppercase">
-            LOGO GOES HERE
+          <div className="h-10 w-10 border-2 border-dashed border-[#d4a24e]/50 rounded-lg flex items-center justify-center text-[8px] text-[#d4a24e] font-bold">
+            LOGO
           </div>
           <div>
-            <span className="text-xl font-bold tracking-tight text-white block">WINT <span className="text-[#1f8b2e]">CONSTRUCTION</span></span>
-            <span className="text-[10px] text-white/50 tracking-widest uppercase block -mt-1">w/ Scott's Landscape & Fence</span>
+            <span className="text-lg font-bold tracking-tight block" style={{ color: DARK }}>WINT <span style={{ color: ACCENT }}>CONSTRUCTION</span></span>
+            <span className="text-[9px] tracking-widest uppercase block -mt-0.5" style={{ color: `${TEXT}80` }}>Concrete & Excavation</span>
           </div>
         </div>
-        <div className="hidden md:flex space-x-6 items-center text-sm font-medium text-white/80">
-          <a href="#gallery" className="hover:text-[#1f8b2e] transition-colors">Our Work</a>
-          <a href="#reviews" className="hover:text-[#1f8b2e] transition-colors">Reviews</a>
-          <a href="#services" className="hover:text-[#1f8b2e] transition-colors">Services</a>
-          <a href="#contact" className="bg-[#1f8b2e] hover:bg-[#177a25] text-white px-4 py-2 rounded font-bold transition-all transform active:scale-95 shadow-lg shadow-[#1f8b2e]/20">
-            Get an Estimate
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium" style={{ color: `${TEXT}99` }}>
+          <a href="#work" className="hover:text-[#d4a24e] transition-colors">Portfolio</a>
+          <a href="#services" className="hover:text-[#d4a24e] transition-colors">Services</a>
+          <a href="#reviews" className="hover:text-[#d4a24e] transition-colors">Reviews</a>
+          <a href="#contact" className="text-white font-bold px-5 py-2.5 rounded-lg transition-all active:scale-95" style={{ background: ACCENT }}>
+            Free Estimate
           </a>
-        </div>
-        <div className="md:hidden text-xs bg-white/10 text-white/70 px-2.5 py-1 rounded border border-white/15">
-          Est. 1992
-        </div>
+        </nav>
+        <a href="#contact" className="md:hidden text-xs font-bold px-3 py-1.5 rounded text-white" style={{ background: ACCENT }}>
+          Get Quote
+        </a>
       </header>
 
-      {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-black text-white">
+      {/* ═══ HERO — FULL BLEED CENTERED ═══ */}
+      <section className="relative min-h-[70vh] sm:min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="/images/site/hero-slider.png"
-            alt="Wint Construction concrete work in Rochester, NY"
-            className="w-full h-full object-cover opacity-30"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-black/60" />
+          <img src="/images/site/concrete-1.jpg" alt="Wint Construction concrete work" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
         </div>
 
-        <div className="relative py-16 px-4 sm:px-8 lg:py-28">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="inline-block text-xs uppercase tracking-[0.25em] font-semibold mb-6 px-4 py-1.5 rounded-full border"
+            style={{ color: ACCENT, borderColor: `${ACCENT}50`, background: `${ACCENT}15` }}
+          >
+            Rochester, NY &nbsp;•&nbsp; Est. 1992
+          </motion.span>
 
-            <div className="lg:col-span-7 space-y-6 text-left">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center space-x-2 bg-[#1f8b2e]/10 border border-[#1f8b2e]/30 text-[#1f8b2e] px-3 py-1 rounded-full text-xs tracking-wide"
-              >
-                <span>Monroe County & All of Western NY</span>
-              </motion.div>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-none text-white"
-              >
-                Concrete That Handles <br />
-                <span className="text-[#1f8b2e]">
-                  Rochester Winters.
-                </span>
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-white/70 text-base sm:text-lg max-w-xl leading-relaxed"
-              >
-                We pour thick slabs, stamp real patterns, and run Bobcat excavation across Western New York. No dry-mix dumps into dry dirt. Scott Blain and his crew have been setting heavy concrete flatwork, grading lots, and building out hardscapes that survive brutal freeze-thaw cycles since 1992.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="pt-2 flex flex-col sm:flex-row gap-4"
-              >
-                <a href="#contact" className="bg-[#1f8b2e] hover:bg-[#177a25] text-white text-center font-bold px-6 py-3.5 rounded-lg transition-all shadow-xl shadow-[#1f8b2e]/30 transform active:scale-95">
-                  Request a Free Quote
-                </a>
-                <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="border border-white/20 bg-white/5 hover:bg-white/10 text-white text-center font-semibold px-6 py-3.5 rounded-lg transition-all">
-                  Call Scott Directly
-                </a>
-              </motion.div>
-            </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-white"
+          >
+            Heavy Concrete.<br />
+            <span style={{ color: ACCENT }}>Done Right.</span>
+          </motion.h1>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:col-span-5 relative"
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-white/60 text-base sm:text-lg mt-6 max-w-xl mx-auto leading-relaxed"
+          >
+            We pour thick slabs, stamp real patterns, and run Bobcat excavation across Western New York. Scott Blain and his crew have been setting heavy concrete flatwork that survives brutal freeze-thaw cycles since 1992.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
+          >
+            <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="text-white font-bold px-8 py-4 rounded-lg transition-all active:scale-95 text-base shadow-xl" style={{ background: ACCENT }}>
+              Call Scott — {BUSINESS_INFO.contacts.concrete.phone}
+            </a>
+            <a href="#work" className="border border-white/25 bg-white/10 backdrop-blur-sm hover:bg-white/15 text-white font-semibold px-8 py-4 rounded-lg transition-all text-base">
+              See Our Work
+            </a>
+          </motion.div>
+        </div>
+
+        {/* Stats strip overlaying bottom of hero */}
+        <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm border-t border-white/10">
+          <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/10">
+            {[
+              { num: "30+", label: "Years in Rochester" },
+              { num: "500+", label: "Projects Completed" },
+              { num: "100%", label: "Wet Concrete Mixes" },
+              { num: "36\"", label: "Deep Frost-Line Posts" }
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
+                className="py-4 sm:py-5 text-center"
+              >
+                <span className="text-2xl sm:text-3xl font-bold block" style={{ color: ACCENT }}>{stat.num}</span>
+                <span className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider">{stat.label}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SERVICES — TABBED LAYOUT ═══ */}
+      <section id="services" className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-2" style={{ color: ACCENT }}>What We Do</span>
+            <motion.h2
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4 }}
+              className="text-3xl sm:text-4xl font-bold tracking-tight"
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#1f8b2e]/20 to-transparent rounded-2xl blur-2xl" />
-              <div className="relative border border-white/10 bg-black/60 p-6 rounded-2xl shadow-2xl backdrop-blur-sm">
-                <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-                  <span className="text-xs text-white/40">WHO TO CALL DIRECTLY</span>
-                  <span className="h-2 w-2 rounded-full bg-[#1f8b2e] animate-pulse" />
+              Full Service, One Crew
+            </motion.h2>
+          </div>
+
+          {/* Service tabs */}
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            {SERVICES.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveService(i)}
+                className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                  activeService === i
+                    ? 'text-white shadow-lg'
+                    : 'bg-black/5 hover:bg-black/10'
+                }`}
+                style={activeService === i ? { background: ACCENT, color: '#fff' } : {}}
+              >
+                {s.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Active service detail */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeService}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-xl border border-black/8"
+            >
+              <div className="h-64 lg:h-auto">
+                <img src={SERVICES[activeService].img} alt={SERVICES[activeService].title} className="w-full h-full object-cover" />
+              </div>
+              <div className="bg-white p-8 sm:p-10 flex flex-col justify-center">
+                <h3 className="text-2xl font-bold mb-3">{SERVICES[activeService].title}</h3>
+                <p className="text-sm leading-relaxed mb-6" style={{ color: `${TEXT}99` }}>{SERVICES[activeService].desc}</p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {SERVICES[activeService].tags.map((tag, i) => (
+                    <span key={i} className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: `${ACCENT}15`, color: ACCENT }}>
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-                <div className="space-y-4 text-sm">
-                  <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                    <span className="text-xs text-[#1f8b2e] block">CONCRETE, FLATWORK & EXCAVATION</span>
-                    <span className="font-bold text-white block text-base mt-0.5">{BUSINESS_INFO.contacts.concrete.name}</span>
-                    <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="text-white/50 hover:text-white text-xs underline block mt-1">{BUSINESS_INFO.contacts.concrete.phone}</a>
-                  </div>
-                  <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                    <span className="text-xs text-[#1f8b2e] block">COMMERCIAL CONTRACTING</span>
-                    <span className="font-bold text-white block text-base mt-0.5">{BUSINESS_INFO.contacts.commercial.name}</span>
-                    <a href={`tel:${BUSINESS_INFO.contacts.commercial.phone}`} className="text-white/50 hover:text-white text-xs underline block mt-1">{BUSINESS_INFO.contacts.commercial.phone}</a>
-                  </div>
-                  <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                    <span className="text-xs text-[#1f8b2e] block">RESIDENTIAL & SCHEDULING</span>
-                    <span className="font-bold text-white block text-base mt-0.5">Call {BUSINESS_INFO.contacts.residential.name}</span>
-                    <a href={`tel:${BUSINESS_INFO.contacts.residential.phone}`} className="text-white/50 hover:text-white text-xs underline block mt-1">{BUSINESS_INFO.contacts.residential.phone}</a>
-                  </div>
-                </div>
+                <a href="#contact" className="text-white font-bold px-6 py-3 rounded-lg text-sm inline-block self-start transition-all active:scale-95" style={{ background: ACCENT }}>
+                  Get a Free Estimate
+                </a>
               </div>
             </motion.div>
-          </div>
+          </AnimatePresence>
         </div>
+      </section>
 
-        {/* TICKER */}
-        <div className="relative bg-black/80 border-t border-white/10 py-3 overflow-hidden select-none whitespace-nowrap">
-          <div className="inline-block animate-marquee text-xs tracking-widest text-white/40 uppercase">
-            WET CONCRETE MIXES ONLY • BOBCAT EXCAVATION & GRADING • STAMPED & BRUSHED FINISHES • FREEZE-THAW RATED SLABS • POOL SURROUNDS • DRIVEWAYS • PATIOS • SIDEWALKS • 30+ YEARS IN ROCHESTER • LICENSED & INSURED •&nbsp;
+      {/* ═══ PORTFOLIO — BENTO GRID ═══ */}
+      <section id="work" className="py-20 px-4" style={{ background: WARM_GRAY }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
+            <div>
+              <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-2" style={{ color: ACCENT }}>Portfolio</span>
+              <motion.h2
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4 }}
+                className="text-3xl sm:text-4xl font-bold tracking-tight"
+              >
+                Recent Concrete Work
+              </motion.h2>
+            </div>
+            <p className="text-sm max-w-xs" style={{ color: `${TEXT}70` }}>
+              Every photo is a real job by our crew across Monroe County. Tap to view full size.
+            </p>
           </div>
-          <div className="inline-block animate-marquee text-xs tracking-widest text-white/40 uppercase">
-            WET CONCRETE MIXES ONLY • BOBCAT EXCAVATION & GRADING • STAMPED & BRUSHED FINISHES • FREEZE-THAW RATED SLABS • POOL SURROUNDS • DRIVEWAYS • PATIOS • SIDEWALKS • 30+ YEARS IN ROCHESTER • LICENSED & INSURED •&nbsp;
+
+          {/* Bento grid — 2 large + 4 small on first row, then 3+3 */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {GALLERY_PHOTOS.map((photo, idx) => {
+              const isLarge = idx === 0 || idx === 3;
+              return (
+                <motion.button
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{ duration: 0.3, delay: Math.min(idx * 0.05, 0.3) }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setLightboxIdx(idx)}
+                  className={`relative rounded-xl overflow-hidden cursor-pointer group shadow-sm ${
+                    isLarge ? 'col-span-2 row-span-2 aspect-[4/3]' : 'aspect-square'
+                  }`}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </motion.button>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CONCRETE GALLERY */}
-      <section id="gallery" className="py-16 px-4 max-w-7xl mx-auto">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <span className="text-[#1f8b2e] text-xs uppercase tracking-wider block mb-1">Real Jobs, Real Rochester Properties</span>
-          <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.4 }}
-            className="text-3xl font-bold tracking-tight"
-          >
-            Our Concrete Work
-          </motion.h2>
-          <p className="text-[#1c1c1c]/60 text-sm mt-2">
-            Every photo here is a real job completed by our crew across Monroe County and Western NY. Tap any image to see full size.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {GALLERY_PHOTOS.map((photo, idx) => (
-            <motion.button
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.3, delay: Math.min(idx * 0.05, 0.4) }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => setLightboxIdx(idx)}
-              className="relative aspect-square rounded-xl overflow-hidden cursor-pointer group border border-black/10 shadow-sm"
-            >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-            </motion.button>
-          ))}
-        </div>
-      </section>
-
-      {/* LIGHTBOX */}
+      {/* ═══ LIGHTBOX ═══ */}
       <AnimatePresence>
         {lightboxIdx !== null && (
           <motion.div
@@ -229,14 +301,14 @@ export default function WintConstructionSite() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
             onClick={() => setLightboxIdx(null)}
           >
             <motion.img
               key={lightboxIdx}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              exit={{ opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.25 }}
               src={GALLERY_PHOTOS[lightboxIdx].src}
               alt={GALLERY_PHOTOS[lightboxIdx].alt}
@@ -246,222 +318,113 @@ export default function WintConstructionSite() {
             <button
               onClick={(e) => { e.stopPropagation(); setLightboxIdx((lightboxIdx - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length); }}
               className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white text-2xl flex items-center justify-center transition-colors"
-              aria-label="Previous photo"
             >
               ‹
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); setLightboxIdx((lightboxIdx + 1) % GALLERY_PHOTOS.length); }}
               className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white text-2xl flex items-center justify-center transition-colors"
-              aria-label="Next photo"
             >
               ›
             </button>
             <button
               onClick={() => setLightboxIdx(null)}
               className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-xl flex items-center justify-center transition-colors"
-              aria-label="Close"
             >
               ×
             </button>
-            <div className="absolute bottom-4 text-center text-white/60 text-xs">
+            <div className="absolute bottom-4 text-center text-white/50 text-xs font-medium">
               {lightboxIdx + 1} / {GALLERY_PHOTOS.length}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* BEFORE/AFTER SLIDER */}
-      <section className="py-16 px-4 max-w-4xl mx-auto text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.4 }}
-          className="text-2xl sm:text-3xl font-bold tracking-tight mb-2"
-        >
-          See the Transformation
-        </motion.h2>
-        <p className="text-[#1c1c1c]/60 text-sm max-w-md mx-auto mb-8">
-          Drag the center bar to see how a bare lot transforms with professional concrete flatwork from our crew.
-        </p>
-
-        <div
-          className="relative h-64 sm:h-96 w-full rounded-xl overflow-hidden select-none cursor-ew-resize shadow-2xl border border-black/10"
-          onMouseMove={(e) => { if(e.buttons === 1 || isDragging) handleMove(e.clientX, e.currentTarget) }}
-          onTouchMove={(e) => { handleMove(e.touches[0].clientX, e.currentTarget) }}
-          onMouseDown={() => setIsDragging(true)}
-          onMouseUp={() => setIsDragging(false)}
-          onTouchStart={() => setIsDragging(true)}
-          onTouchEnd={() => setIsDragging(false)}
-        >
-          {/* Before */}
-          <div className="absolute inset-0">
-            <img src="/images/site/landscape.png" alt="Before — bare yard" className="w-full h-full object-cover brightness-90" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-            <span className="absolute bottom-4 right-4 text-xs uppercase tracking-widest font-bold bg-black/50 text-white px-2 py-0.5 rounded">Before</span>
-          </div>
-
-          {/* After */}
-          <div
-            className="absolute inset-y-0 left-0 right-0 overflow-hidden pointer-events-none"
-            style={{ clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)` }}
-          >
-            <img src="/images/site/concrete-1.jpg" alt="After — completed concrete flatwork" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-            <span className="absolute bottom-4 left-4 text-xs uppercase tracking-widest font-bold bg-[#1f8b2e] text-white px-2 py-0.5 rounded">After</span>
-          </div>
-
-          {/* Divider */}
-          <div
-            className="absolute inset-y-0 w-1 bg-[#1f8b2e] cursor-ew-resize shadow-[0_0_15px_rgba(31,139,46,0.6)]"
-            style={{ left: `${sliderPos}%` }}
-          >
-            <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-[#1f8b2e] border-2 border-white shadow-xl flex items-center justify-center text-white font-bold text-sm select-none">
-              ↔
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FREE ESTIMATE CTA */}
-      <section className="py-16 px-4 bg-black text-white border-y border-white/10">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.4 }}
-            className="text-3xl font-bold tracking-tight"
-          >
-            Request a Free Quote Today
-          </motion.h2>
-          <p className="text-white/50 text-sm mt-3 max-w-xl mx-auto leading-relaxed">
-            Every slab is different. We don't throw numbers at you over the phone — we come out, look at your grade, check drainage, and give you a real quote based on what your lot actually needs. No hidden fees since 1992.
-          </p>
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-              <span className="text-[#1f8b2e] text-xs uppercase tracking-wider block mb-2">Step 1</span>
-              <span className="font-bold text-white block">Call or Text Scott</span>
-              <span className="text-white/40 text-xs block mt-1">Talk directly to the guy running your pour — no call centers</span>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-              <span className="text-[#1f8b2e] text-xs uppercase tracking-wider block mb-2">Step 2</span>
-              <span className="font-bold text-white block">Free Site Walkthrough</span>
-              <span className="text-white/40 text-xs block mt-1">We check grade, drainage, access, and measure everything on-site</span>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-              <span className="text-[#1f8b2e] text-xs uppercase tracking-wider block mb-2">Step 3</span>
-              <span className="font-bold text-white block">Get Your Quote</span>
-              <span className="text-white/40 text-xs block mt-1">Transparent pricing for labor, material, excavation — no surprises</span>
-            </div>
-          </div>
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="bg-[#1f8b2e] hover:bg-[#177a25] text-white font-bold px-8 py-3.5 rounded-lg transition-all shadow-xl shadow-[#1f8b2e]/30 transform active:scale-95">
-              Call Scott — {BUSINESS_INFO.contacts.concrete.phone}
-            </a>
-            <a href={`tel:${BUSINESS_INFO.contacts.commercial.phone}`} className="border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold px-8 py-3.5 rounded-lg transition-all">
-              Call Aaron — {BUSINESS_INFO.contacts.commercial.phone}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section id="services" className="py-16 px-4 max-w-6xl mx-auto">
-        <div className="text-center max-w-xl mx-auto mb-12">
-          <span className="text-[#1f8b2e] text-xs uppercase tracking-wider block mb-1">Full Service Concrete & Excavation</span>
-          <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.4 }}
-            className="text-3xl font-bold tracking-tight"
-          >
-            More Than Just a Concrete Pour
-          </motion.h2>
-          <p className="text-[#1c1c1c]/60 text-sm mt-1">
-            Scott and the crew handle the full scope — excavation to finish — so you don't need to wrangle 4 different contractors.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              img: "/images/site/concrete-services.jpg",
-              title: "Concrete Flatwork",
-              desc: "Driveways, sidewalks, patios, pool surrounds, and garage pads. We pour thick, reinforced slabs with proper sub-base prep. Every pour uses wet concrete mix — never dry dumps into dry holes. Built to handle Rochester's freeze-thaw cycles without cracking."
-            },
-            {
-              img: "/images/site/concrete-patio.jpg",
-              title: "Stamped & Decorative Concrete",
-              desc: "Professional stamped patterns that mimic natural stone, brick, and slate. Brushed finishes for slip resistance around pools. Integral color options to match your home exterior. Custom decorative stone installations and pillars."
-            },
-            {
-              img: "/images/site/inner-banner.jpg",
-              title: "Excavation & Site Prep",
-              desc: "Bobcat excavation, lot grading, and complete site prep for new builds and renovations. Pool removals, fill-ins, and re-seeding. We handle the dirt work so your concrete has a proper foundation underneath it."
-            }
-          ].map((service, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
-              className="bg-white border border-black/10 rounded-2xl shadow-sm overflow-hidden"
-            >
-              <img src={service.img} alt={service.title} className="w-full h-48 object-cover" loading="lazy" />
-              <div className="p-6">
-                <h3 className="font-bold text-lg mb-1">{service.title}</h3>
-                <p className="text-[#1c1c1c]/60 text-sm leading-relaxed">{service.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* REVIEWS */}
-      <section id="reviews" className="py-16 px-4 bg-[#eee] border-t border-black/10 overflow-hidden">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <span className="text-[#1f8b2e] text-xs uppercase tracking-wider block mb-1">Real Reviews From Real Customers</span>
+      {/* ═══ WHY US — HORIZONTAL FEATURES ═══ */}
+      <section className="py-20 px-4" style={{ background: DARK, color: '#fff' }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-2" style={{ color: ACCENT }}>Why Wint Construction</span>
             <motion.h2
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.4 }}
-              className="text-2xl sm:text-3xl font-bold tracking-tight"
+              className="text-3xl sm:text-4xl font-bold tracking-tight"
             >
-              Backed by Genuine Local Reputation
+              No Shortcuts, No Dry Mix
             </motion.h2>
-            <div className="mt-3 inline-flex items-center gap-2 bg-white border border-black/10 rounded-full px-4 py-2 shadow-sm">
-              <div className="flex text-[#1f8b2e] text-lg">
-                {"★★★★★".split("").map((s, i) => <span key={i}>{s}</span>)}
-              </div>
-              <span className="text-sm font-semibold text-[#1c1c1c]">4.25 / 5</span>
-              <span className="text-xs text-[#1c1c1c]/50">from 53 reviews</span>
-            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {BUSINESS_INFO.testimonials.map((t, idx) => (
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Wet Concrete Only", desc: "We mix real wet concrete on every job. No dumping dry bags into dry holes and hoping for the best." },
+              { title: "Frost-Line Depth", desc: "We dig to 36 inches minimum. Your slabs and footings won't heave when January hits Rochester." },
+              { title: "Bobcat On-Site", desc: "Full excavation capability. We grade, dig, and prep your site — you don't need a separate contractor." },
+              { title: "Owner-Operated", desc: "Scott oversees every pour. You talk to the guy doing the work, not a sales rep in another state." }
+            ].map((feat, i) => (
               <motion.div
-                key={idx}
+                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
-                transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="bg-white p-6 rounded-xl border border-black/10 shadow-sm flex flex-col justify-between"
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                className="border border-white/10 rounded-xl p-6"
               >
-                <div>
-                  <div className="flex text-[#1f8b2e] text-sm mb-3">
-                    {Array.from({ length: t.stars }, (_, i) => <span key={i}>★</span>)}
-                  </div>
-                  <p className="text-[#1c1c1c]/80 italic text-sm leading-relaxed">"{t.text}"</p>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold mb-4" style={{ background: `${ACCENT}20`, color: ACCENT }}>
+                  {String(i + 1).padStart(2, '0')}
                 </div>
-                <div className="mt-4 pt-3 border-t border-black/5 flex justify-between items-center text-xs text-[#1c1c1c]/50">
-                  <span className="font-bold text-[#1c1c1c]">{t.author}</span>
-                  <span>{t.location}</span>
+                <h3 className="font-bold text-base mb-2">{feat.title}</h3>
+                <p className="text-white/50 text-sm leading-relaxed">{feat.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ REVIEWS — ALTERNATING LARGE QUOTES ═══ */}
+      <section id="reviews" className="py-20 px-4" style={{ background: LIGHT_BG }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
+            <div>
+              <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-2" style={{ color: ACCENT }}>Customer Reviews</span>
+              <motion.h2
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4 }}
+                className="text-3xl sm:text-4xl font-bold tracking-tight"
+              >
+                What People Say
+              </motion.h2>
+            </div>
+            <div className="flex items-center gap-2 bg-white border border-black/8 rounded-full px-4 py-2 shadow-sm">
+              <div className="flex text-lg" style={{ color: ACCENT }}>★★★★★</div>
+              <span className="text-sm font-semibold">4.25 / 5</span>
+              <span className="text-xs" style={{ color: `${TEXT}60` }}>• 53 reviews</span>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {BUSINESS_INFO.testimonials.map((t, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.4, delay: idx * 0.06 }}
+                className="bg-white rounded-xl p-6 sm:p-8 border border-black/6 shadow-sm flex flex-col sm:flex-row gap-4 sm:gap-8 items-start"
+              >
+                <div className="flex-shrink-0 flex text-sm gap-0.5" style={{ color: ACCENT }}>
+                  {Array.from({ length: t.stars }, (_, i) => <span key={i}>★</span>)}
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm sm:text-base leading-relaxed italic" style={{ color: `${TEXT}cc` }}>"{t.text}"</p>
+                  <div className="mt-3 flex items-center gap-3 text-xs" style={{ color: `${TEXT}70` }}>
+                    <span className="font-bold" style={{ color: TEXT }}>{t.author}</span>
+                    <span>•</span>
+                    <span>{t.location}</span>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -469,82 +432,99 @@ export default function WintConstructionSite() {
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="py-16 px-4 max-w-4xl mx-auto text-center">
-        <span className="text-[#1f8b2e] text-xs uppercase tracking-wider block mb-1">Call Us for Free Estimates</span>
-        <motion.h2
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.4 }}
-          className="text-3xl font-bold tracking-tight mb-2"
-        >
-          Speak Directly With Scott
-        </motion.h2>
-        <p className="text-[#1c1c1c]/60 text-sm max-w-md mx-auto mb-10">
-          No automated phone trees, no sales reps. Tap below to talk directly with the person who'll oversee your pour.
-        </p>
+      {/* ═══ CONTACT — SPLIT LAYOUT ═══ */}
+      <section id="contact" className="py-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
+          {/* Left — dark info panel */}
+          <div className="p-10 sm:p-16 flex flex-col justify-center" style={{ background: DARK, color: '#fff' }}>
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-3" style={{ color: ACCENT }}>Get Your Free Estimate</span>
+            <motion.h2
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4 }}
+              className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
+            >
+              Talk to Scott Directly
+            </motion.h2>
+            <p className="text-white/50 text-sm leading-relaxed mb-8 max-w-md">
+              Every slab is different. We come out, look at your grade, check drainage, and give you an honest quote. No call centers, no automated systems — just the guy who'll oversee your pour.
+            </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="bg-black text-white p-6 rounded-xl border border-white/10 shadow-md"
-          >
-            <span className="text-xs text-[#1f8b2e] uppercase tracking-widest block mb-1">Concrete, Flatwork & Excavation</span>
-            <h3 className="text-xl font-bold">{BUSINESS_INFO.contacts.concrete.name}</h3>
-            <p className="text-xs text-white/50 mt-1 mb-4">Driveways, patios, pool surrounds, stamped concrete, Bobcat grading, and full site prep.</p>
-            <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="inline-block w-full text-center bg-[#1f8b2e] hover:bg-[#177a25] text-white font-bold py-2.5 rounded-lg text-sm transition-colors">
-              Call {BUSINESS_INFO.contacts.concrete.phone}
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start gap-4 p-4 rounded-xl border border-white/10">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${ACCENT}20`, color: ACCENT }}>SC</div>
+                <div>
+                  <span className="font-bold text-white block">{BUSINESS_INFO.contacts.concrete.name}</span>
+                  <span className="text-xs text-white/40 block">Concrete, Flatwork & Excavation</span>
+                  <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="text-sm font-semibold mt-1 block" style={{ color: ACCENT }}>{BUSINESS_INFO.contacts.concrete.phone}</a>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-4 rounded-xl border border-white/10">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${ACCENT}20`, color: ACCENT }}>AR</div>
+                <div>
+                  <span className="font-bold text-white block">{BUSINESS_INFO.contacts.commercial.name}</span>
+                  <span className="text-xs text-white/40 block">Commercial Contracting</span>
+                  <a href={`tel:${BUSINESS_INFO.contacts.commercial.phone}`} className="text-sm font-semibold mt-1 block" style={{ color: ACCENT }}>{BUSINESS_INFO.contacts.commercial.phone}</a>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-4 rounded-xl border border-white/10">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${ACCENT}20`, color: ACCENT }}>CJ</div>
+                <div>
+                  <span className="font-bold text-white block">{BUSINESS_INFO.contacts.residential.name}</span>
+                  <span className="text-xs text-white/40 block">Residential & Scheduling</span>
+                  <a href={`tel:${BUSINESS_INFO.contacts.residential.phone}`} className="text-sm font-semibold mt-1 block" style={{ color: ACCENT }}>{BUSINESS_INFO.contacts.residential.phone}</a>
+                </div>
+              </div>
+            </div>
+
+            <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="text-white font-bold px-8 py-4 rounded-lg transition-all active:scale-95 text-center text-base shadow-lg self-start" style={{ background: ACCENT }}>
+              Call Now for Free Estimate
             </a>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="bg-white border border-black/10 p-6 rounded-xl shadow-md"
-          >
-            <span className="text-xs text-[#1f8b2e] uppercase tracking-widest block mb-1">Commercial Contracting</span>
-            <h3 className="text-xl font-bold text-[#1c1c1c]">{BUSINESS_INFO.contacts.commercial.name}</h3>
-            <p className="text-xs text-[#1c1c1c]/50 mt-1 mb-4">Commercial concrete pads, structural flatwork, municipal projects, and large-scale site work.</p>
-            <a href={`tel:${BUSINESS_INFO.contacts.commercial.phone}`} className="inline-block w-full text-center bg-black hover:bg-[#111] text-white font-bold py-2.5 rounded-lg text-sm transition-colors">
-              Call {BUSINESS_INFO.contacts.commercial.phone}
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Footer logo placeholder */}
-        <div className="mt-10 flex justify-center">
-          <div className="h-16 w-40 border-2 border-dashed border-[#1f8b2e]/40 rounded-lg flex items-center justify-center text-xs text-[#1f8b2e]/60 font-semibold tracking-wider uppercase">
-            LOGO GOES HERE
           </div>
-        </div>
-        <div className="mt-4 text-center text-xs text-[#1c1c1c]/40">
-          Wint Construction • w/ Scott's Landscape & Fence • PO Box 60406 • Rochester, NY 14606
+
+          {/* Right — image */}
+          <div className="hidden lg:block relative">
+            <img src="/images/site/concrete-3.jpg" alt="Wint Construction concrete project" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/10" />
+          </div>
         </div>
       </section>
 
-      {/* MOBILE BOTTOM NAV */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-3 z-50 flex gap-3 items-center pb-safe">
+      {/* ═══ FOOTER ═══ */}
+      <footer className="py-10 px-4 text-center" style={{ background: DARKER, color: 'rgba(255,255,255,0.3)' }}>
+        <div className="flex justify-center mb-4">
+          <div className="h-14 w-36 border-2 border-dashed rounded-lg flex items-center justify-center text-[10px] font-semibold tracking-wider uppercase" style={{ borderColor: `${ACCENT}40`, color: `${ACCENT}60` }}>
+            LOGO GOES HERE
+          </div>
+        </div>
+        <div className="text-xs space-y-1">
+          <p>Wint Construction &nbsp;•&nbsp; w/ Scott's Landscape & Fence</p>
+          <p>PO Box 60406 &nbsp;•&nbsp; Rochester, NY 14606</p>
+          <p className="pt-2" style={{ color: 'rgba(255,255,255,0.15)' }}>Built by ZM Graphics</p>
+        </div>
+      </footer>
+
+      {/* ═══ MOBILE BOTTOM NAV ═══ */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 backdrop-blur-md border-t border-white/10 px-4 py-3 z-50 flex gap-2 items-center pb-safe" style={{ background: 'rgba(26,26,26,0.97)' }}>
         <a
           href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`}
-          className="flex-1 bg-white/10 border border-white/15 text-white rounded-xl py-3 px-2 text-center text-xs font-bold tracking-tight flex items-center justify-center gap-1.5"
+          className="flex-1 border border-white/15 text-white rounded-xl py-3 px-2 text-center text-xs font-bold tracking-tight"
+          style={{ background: 'rgba(255,255,255,0.08)' }}
         >
-          Scott (Concrete)
+          Call Scott
         </a>
         <a
           href={`tel:${BUSINESS_INFO.contacts.commercial.phone}`}
-          className="flex-1 bg-white/10 border border-white/15 text-white rounded-xl py-3 px-2 text-center text-xs font-bold tracking-tight flex items-center justify-center gap-1.5"
+          className="flex-1 border border-white/15 text-white rounded-xl py-3 px-2 text-center text-xs font-bold tracking-tight"
+          style={{ background: 'rgba(255,255,255,0.08)' }}
         >
-          Aaron (Comm)
+          Call Aaron
         </a>
         <a
           href="#contact"
-          className="flex-1 bg-[#1f8b2e] text-white rounded-xl py-3 px-2 text-center text-xs font-bold tracking-tight shadow-md shadow-[#1f8b2e]/40"
+          className="flex-1 text-white rounded-xl py-3 px-2 text-center text-xs font-bold tracking-tight shadow-md"
+          style={{ background: ACCENT }}
         >
           Free Quote
         </a>
