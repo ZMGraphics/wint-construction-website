@@ -59,7 +59,7 @@ export default function WintConstructionSite() {
   const [activeService, setActiveService] = useState(0);
 
   return (
-    <div className={`min-h-screen bg-[${LIGHT_BG}] text-[${TEXT}] antialiased`} style={{ background: LIGHT_BG, color: TEXT }}>
+    <div className="min-h-screen antialiased pb-20 md:pb-0" style={{ background: LIGHT_BG, color: TEXT }}>
 
       {/* ═══ TOP BAR ═══ */}
       <div className="w-full bg-[#1a1a1a] text-white/50 text-[10px] tracking-widest uppercase py-2 px-4 text-center hidden sm:block">
@@ -67,31 +67,31 @@ export default function WintConstructionSite() {
       </div>
 
       {/* ═══ HEADER ═══ */}
-      <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-black/8 py-4 px-4 sm:px-8 flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 border-2 border-dashed border-[#d4a24e]/50 rounded-lg flex items-center justify-center text-[8px] text-[#d4a24e] font-bold">
+      <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-black/8 py-3 px-3 sm:py-4 sm:px-8 flex justify-between items-center">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="h-9 w-9 sm:h-10 sm:w-10 border-2 border-dashed rounded-lg flex items-center justify-center text-[7px] sm:text-[8px] font-bold flex-shrink-0" style={{ borderColor: `${ACCENT}50`, color: ACCENT }}>
             LOGO
           </div>
-          <div>
-            <span className="text-lg font-bold tracking-tight block" style={{ color: DARK }}>WINT <span style={{ color: ACCENT }}>CONSTRUCTORS</span></span>
-            <span className="text-[9px] tracking-widest uppercase block -mt-0.5" style={{ color: `${TEXT}80` }}>Concrete & Excavation</span>
+          <div className="min-w-0">
+            <span className="text-sm sm:text-lg font-bold tracking-tight block truncate" style={{ color: DARK }}>WINT <span style={{ color: ACCENT }}>CONSTRUCTORS</span></span>
+            <span className="text-[8px] sm:text-[9px] tracking-widest uppercase block -mt-0.5" style={{ color: `${TEXT}80` }}>Concrete & Excavation</span>
           </div>
         </div>
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium" style={{ color: `${TEXT}99` }}>
-          <a href="#work" className="hover:text-[#d4a24e] transition-colors">Portfolio</a>
-          <a href="#services" className="hover:text-[#d4a24e] transition-colors">Services</a>
-          <a href="#reviews" className="hover:text-[#d4a24e] transition-colors">Reviews</a>
+          <a href="#work" className="hover:text-[#1f8b2e] transition-colors">Portfolio</a>
+          <a href="#services" className="hover:text-[#1f8b2e] transition-colors">Services</a>
+          <a href="#reviews" className="hover:text-[#1f8b2e] transition-colors">Reviews</a>
           <a href="#contact" className="text-white font-bold px-5 py-2.5 rounded-lg transition-all active:scale-95" style={{ background: ACCENT }}>
             Free Estimate
           </a>
         </nav>
-        <a href="#contact" className="md:hidden text-xs font-bold px-3 py-1.5 rounded text-white" style={{ background: ACCENT }}>
-          Get Quote
+        <a href={`tel:${BUSINESS_INFO.contacts.primary.phone}`} className="md:hidden text-[11px] font-bold px-3 py-2 rounded-lg text-white flex-shrink-0" style={{ background: ACCENT }}>
+          Call Jay
         </a>
       </header>
 
       {/* ═══ HERO — FULL BLEED CENTERED ═══ */}
-      <section className="relative min-h-[70vh] sm:min-h-[80vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[60vh] sm:min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img src="/images/site/concrete-1.jpg" alt="Wint Construction concrete work" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
@@ -112,7 +112,7 @@ export default function WintConstructionSite() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-white"
+            className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-white"
           >
             Heavy Concrete.<br />
             <span style={{ color: ACCENT }}>Done Right.</span>
@@ -133,10 +133,10 @@ export default function WintConstructionSite() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
           >
-            <a href={`tel:${BUSINESS_INFO.contacts.primary.phone}`} className="text-white font-bold px-8 py-4 rounded-lg transition-all active:scale-95 text-base shadow-xl" style={{ background: ACCENT }}>
+            <a href={`tel:${BUSINESS_INFO.contacts.primary.phone}`} className="text-white font-bold px-6 py-3.5 sm:px-8 sm:py-4 rounded-lg transition-all active:scale-95 text-sm sm:text-base shadow-xl" style={{ background: ACCENT }}>
               Call Jay — {BUSINESS_INFO.contacts.primary.phone}
             </a>
-            <a href="#work" className="border border-white/25 bg-white/10 backdrop-blur-sm hover:bg-white/15 text-white font-semibold px-8 py-4 rounded-lg transition-all text-base">
+            <a href="#work" className="border border-white/25 bg-white/10 backdrop-blur-sm hover:bg-white/15 text-white font-semibold px-6 py-3.5 sm:px-8 sm:py-4 rounded-lg transition-all text-sm sm:text-base">
               See Our Work
             </a>
           </motion.div>
@@ -167,7 +167,7 @@ export default function WintConstructionSite() {
       </section>
 
       {/* ═══ SERVICES — TABBED LAYOUT ═══ */}
-      <section id="services" className="py-20 px-4">
+      <section id="services" className="py-12 sm:py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-2" style={{ color: ACCENT }}>What We Do</span>
@@ -233,7 +233,7 @@ export default function WintConstructionSite() {
       </section>
 
       {/* ═══ PORTFOLIO — BENTO GRID ═══ */}
-      <section id="work" className="py-20 px-4" style={{ background: WARM_GRAY }}>
+      <section id="work" className="py-12 sm:py-20 px-4" style={{ background: WARM_GRAY }}>
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
             <div>
@@ -332,7 +332,7 @@ export default function WintConstructionSite() {
       </AnimatePresence>
 
       {/* ═══ WHY US — HORIZONTAL FEATURES ═══ */}
-      <section className="py-20 px-4" style={{ background: DARK, color: '#fff' }}>
+      <section className="py-12 sm:py-20 px-4" style={{ background: DARK, color: '#fff' }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-2" style={{ color: ACCENT }}>Why Wint Constructors</span>
@@ -374,7 +374,7 @@ export default function WintConstructionSite() {
       </section>
 
       {/* ═══ REVIEWS — ALTERNATING LARGE QUOTES ═══ */}
-      <section id="reviews" className="py-20 px-4" style={{ background: LIGHT_BG }}>
+      <section id="reviews" className="py-12 sm:py-20 px-4" style={{ background: LIGHT_BG }}>
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
             <div>
@@ -391,7 +391,7 @@ export default function WintConstructionSite() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-black/8 shadow-sm p-10 sm:p-14 text-center">
+          <div className="bg-white rounded-2xl border border-black/8 shadow-sm p-6 sm:p-14 text-center">
             <div className="flex justify-center text-3xl gap-1 mb-4" style={{ color: ACCENT }}>★★★★★</div>
             <p className="text-lg sm:text-xl italic leading-relaxed max-w-2xl mx-auto" style={{ color: `${TEXT}cc` }}>
               "Wint Constructors is a new company building its reputation one pour at a time. We let our concrete speak for itself — check out the portfolio above and call Jay for references."
@@ -408,7 +408,7 @@ export default function WintConstructionSite() {
       <section id="contact" className="py-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
           {/* Left — dark info panel */}
-          <div className="p-10 sm:p-16 flex flex-col justify-center" style={{ background: DARK, color: '#fff' }}>
+          <div className="p-6 sm:p-16 flex flex-col justify-center" style={{ background: DARK, color: '#fff' }}>
             <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-3" style={{ color: ACCENT }}>Get Your Free Estimate</span>
             <motion.h2
               initial={{ opacity: 0, y: 15 }}
