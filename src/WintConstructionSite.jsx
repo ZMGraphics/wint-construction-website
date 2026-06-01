@@ -90,19 +90,19 @@ export default function WintConstructionSite() {
         </a>
       </header>
 
-      {/* ═══ HERO — FULL BLEED CENTERED ═══ */}
-      <section className="relative min-h-[60vh] sm:min-h-[80vh] flex items-center justify-center overflow-hidden">
+      {/* ═══ HERO ═══ */}
+      <section className="relative overflow-hidden bg-black text-white">
         <div className="absolute inset-0">
-          <img src="/images/site/concrete-1.jpg" alt="Wint Construction concrete work" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+          <img src="/images/site/concrete-1.jpg" alt="Wint Construction concrete work" className="w-full h-full object-cover opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
         </div>
 
-        <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
+        <div className="relative z-10 text-center px-4 max-w-3xl mx-auto py-16 sm:py-28 pb-28 sm:pb-36">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="inline-block text-xs uppercase tracking-[0.25em] font-semibold mb-6 px-4 py-1.5 rounded-full border"
+            className="inline-block text-[10px] sm:text-xs uppercase tracking-[0.25em] font-semibold mb-4 sm:mb-6 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border"
             style={{ color: ACCENT, borderColor: `${ACCENT}50`, background: `${ACCENT}15` }}
           >
             Rochester, NY &nbsp;•&nbsp; Est. 2023
@@ -112,7 +112,7 @@ export default function WintConstructionSite() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-white"
+            className="text-3xl sm:text-5xl lg:text-7xl font-bold tracking-tight leading-[1] text-white"
           >
             Heavy Concrete.<br />
             <span style={{ color: ACCENT }}>Done Right.</span>
@@ -122,7 +122,7 @@ export default function WintConstructionSite() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-white/60 text-base sm:text-lg mt-6 max-w-xl mx-auto leading-relaxed"
+            className="text-white/60 text-sm sm:text-lg mt-4 sm:mt-6 max-w-xl mx-auto leading-relaxed"
           >
             We pour thick slabs, stamp real patterns, and run Bobcat excavation across Western New York. Jay Wint and his crew set heavy concrete flatwork that survives brutal Rochester freeze-thaw cycles.
           </motion.p>
@@ -131,19 +131,19 @@ export default function WintConstructionSite() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
+            className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 justify-center"
           >
-            <a href={`tel:${BUSINESS_INFO.contacts.primary.phone}`} className="text-white font-bold px-6 py-3.5 sm:px-8 sm:py-4 rounded-lg transition-all active:scale-95 text-sm sm:text-base shadow-xl" style={{ background: ACCENT }}>
+            <a href={`tel:${BUSINESS_INFO.contacts.primary.phone}`} className="text-white font-bold px-5 py-3 sm:px-8 sm:py-4 rounded-lg transition-all active:scale-95 text-sm sm:text-base shadow-xl" style={{ background: ACCENT }}>
               Call Jay — {BUSINESS_INFO.contacts.primary.phone}
             </a>
-            <a href="#work" className="border border-white/25 bg-white/10 backdrop-blur-sm hover:bg-white/15 text-white font-semibold px-6 py-3.5 sm:px-8 sm:py-4 rounded-lg transition-all text-sm sm:text-base">
+            <a href="#work" className="border border-white/25 bg-white/10 backdrop-blur-sm hover:bg-white/15 text-white font-semibold px-5 py-3 sm:px-8 sm:py-4 rounded-lg transition-all text-sm sm:text-base">
               See Our Work
             </a>
           </motion.div>
         </div>
 
-        {/* Stats strip overlaying bottom of hero */}
-        <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm border-t border-white/10">
+        {/* Stats strip — sits at bottom of hero, not overlapping content */}
+        <div className="relative z-10 bg-black/60 backdrop-blur-sm border-t border-white/10">
           <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/10">
             {[
               { num: "DOT", label: "Registered Carrier" },
@@ -156,10 +156,10 @@ export default function WintConstructionSite() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                className="py-4 sm:py-5 text-center"
+                className="py-3 sm:py-5 text-center"
               >
-                <span className="text-2xl sm:text-3xl font-bold block" style={{ color: ACCENT }}>{stat.num}</span>
-                <span className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider">{stat.label}</span>
+                <span className="text-xl sm:text-3xl font-bold block" style={{ color: ACCENT }}>{stat.num}</span>
+                <span className="text-[9px] sm:text-xs text-white/50 uppercase tracking-wider">{stat.label}</span>
               </motion.div>
             ))}
           </div>
