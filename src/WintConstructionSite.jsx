@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Warm industrial palette — slate charcoal + amber gold accent
-// Distinct from AA Fencing's green/black scheme
-const ACCENT = "#d4a24e";
-const ACCENT_HOVER = "#c4922e";
+// Scott's Landscape brand green palette
+const ACCENT = "#1f8b2e";
+const ACCENT_HOVER = "#177a25";
 const DARK = "#1a1a1a";
 const DARKER = "#111";
-const LIGHT_BG = "#f7f5f2";
-const WARM_GRAY = "#e8e4df";
+const LIGHT_BG = "#f5f5f5";
+const WARM_GRAY = "#eaeaea";
 const TEXT = "#2c2c2c";
 
 const BUSINESS_INFO = {
