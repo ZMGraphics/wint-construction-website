@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Scott's Landscape brand green palette
+// Wint Constructors brand palette
 const ACCENT = "#1f8b2e";
 const ACCENT_HOVER = "#177a25";
 const DARK = "#1a1a1a";
@@ -11,21 +11,13 @@ const WARM_GRAY = "#eaeaea";
 const TEXT = "#2c2c2c";
 
 const BUSINESS_INFO = {
-  established: 1992,
-  owners: "Scott Blain & Aaron Reese",
+  established: 2023,
+  owners: "Jason (Jay) Wint",
   contacts: {
-    concrete: { name: "Scott Blain", phone: "585-746-0776", email: "scottslandscapingny@gmail.com" },
-    commercial: { name: "Aaron Reese", phone: "585-503-4199", email: "aafencingllc@gmail.com" },
-    residential: { name: "CJ", phone: "585-329-6533" }
+    primary: { name: "Jay Wint", phone: "585-261-2335", email: "jay@wintconstructors.com" }
   },
-  testimonials: [
-    { text: "You can't even tell where the pool was. They filled in the spot, seeded it, and sent me progress pictures. I checked other places — their prices were higher. I highly recommend them.", author: "Robert P.", location: "Rochester, NY", stars: 5 },
-    { text: "They did a great job with a concrete patio and landscaping on my backyard.", author: "Jake C.", location: "Spencerport, NY", stars: 5 },
-    { text: "The process was smooth, the price was fair, and the work was excellent!", author: "Ken M.", location: "Spencerport, NY", stars: 5 },
-    { text: "Scott's Landscape did exactly what we needed, when we needed it. Highly recommended.", author: "Matt M.", location: "Spencerport, NY", stars: 5 },
-    { text: "Scott, CJ, and his team were efficient, friendly, on time, did excellent work, and cleaned up after themselves well. CJ kept in communication with me frequently updating me on the status of our job.", author: "Verified Customer", location: "Monroe County, NY", stars: 5 },
-    { text: "Couldn't be happier with how everything turned out! Even better than we hoped!", author: "Rebecca B.", location: "Chili, NY", stars: 5 }
-  ]
+  address: "90 Eastman Estates, Rochester, NY 14622",
+  testimonials: []
 };
 
 const GALLERY_PHOTOS = [
@@ -71,7 +63,7 @@ export default function WintConstructionSite() {
 
       {/* ═══ TOP BAR ═══ */}
       <div className="w-full bg-[#1a1a1a] text-white/50 text-[10px] tracking-widest uppercase py-2 px-4 text-center hidden sm:block">
-        Scott's Landscape & Fence Family of Companies &nbsp;•&nbsp; Serving Rochester & Western NY Since 1992 &nbsp;•&nbsp; Licensed & Insured
+        Wint Constructors Inc. &nbsp;•&nbsp; General Contractor &nbsp;•&nbsp; Rochester & Western NY &nbsp;•&nbsp; Licensed & Insured
       </div>
 
       {/* ═══ HEADER ═══ */}
@@ -81,7 +73,7 @@ export default function WintConstructionSite() {
             LOGO
           </div>
           <div>
-            <span className="text-lg font-bold tracking-tight block" style={{ color: DARK }}>WINT <span style={{ color: ACCENT }}>CONSTRUCTION</span></span>
+            <span className="text-lg font-bold tracking-tight block" style={{ color: DARK }}>WINT <span style={{ color: ACCENT }}>CONSTRUCTORS</span></span>
             <span className="text-[9px] tracking-widest uppercase block -mt-0.5" style={{ color: `${TEXT}80` }}>Concrete & Excavation</span>
           </div>
         </div>
@@ -113,7 +105,7 @@ export default function WintConstructionSite() {
             className="inline-block text-xs uppercase tracking-[0.25em] font-semibold mb-6 px-4 py-1.5 rounded-full border"
             style={{ color: ACCENT, borderColor: `${ACCENT}50`, background: `${ACCENT}15` }}
           >
-            Rochester, NY &nbsp;•&nbsp; Est. 1992
+            Rochester, NY &nbsp;•&nbsp; Est. 2023
           </motion.span>
 
           <motion.h1
@@ -132,7 +124,7 @@ export default function WintConstructionSite() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-white/60 text-base sm:text-lg mt-6 max-w-xl mx-auto leading-relaxed"
           >
-            We pour thick slabs, stamp real patterns, and run Bobcat excavation across Western New York. Scott Blain and his crew have been setting heavy concrete flatwork that survives brutal freeze-thaw cycles since 1992.
+            We pour thick slabs, stamp real patterns, and run Bobcat excavation across Western New York. Jay Wint and his crew set heavy concrete flatwork that survives brutal Rochester freeze-thaw cycles.
           </motion.p>
 
           <motion.div
@@ -141,8 +133,8 @@ export default function WintConstructionSite() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
           >
-            <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="text-white font-bold px-8 py-4 rounded-lg transition-all active:scale-95 text-base shadow-xl" style={{ background: ACCENT }}>
-              Call Scott — {BUSINESS_INFO.contacts.concrete.phone}
+            <a href={`tel:${BUSINESS_INFO.contacts.primary.phone}`} className="text-white font-bold px-8 py-4 rounded-lg transition-all active:scale-95 text-base shadow-xl" style={{ background: ACCENT }}>
+              Call Jay — {BUSINESS_INFO.contacts.primary.phone}
             </a>
             <a href="#work" className="border border-white/25 bg-white/10 backdrop-blur-sm hover:bg-white/15 text-white font-semibold px-8 py-4 rounded-lg transition-all text-base">
               See Our Work
@@ -154,8 +146,8 @@ export default function WintConstructionSite() {
         <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm border-t border-white/10">
           <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/10">
             {[
-              { num: "30+", label: "Years in Rochester" },
-              { num: "500+", label: "Projects Completed" },
+              { num: "DOT", label: "Registered Carrier" },
+              { num: "6", label: "Crew Members" },
               { num: "100%", label: "Wet Concrete Mixes" },
               { num: "36\"", label: "Deep Frost-Line Posts" }
             ].map((stat, i) => (
@@ -343,7 +335,7 @@ export default function WintConstructionSite() {
       <section className="py-20 px-4" style={{ background: DARK, color: '#fff' }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-2" style={{ color: ACCENT }}>Why Wint Construction</span>
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold block mb-2" style={{ color: ACCENT }}>Why Wint Constructors</span>
             <motion.h2
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -360,7 +352,7 @@ export default function WintConstructionSite() {
               { title: "Wet Concrete Only", desc: "We mix real wet concrete on every job. No dumping dry bags into dry holes and hoping for the best." },
               { title: "Frost-Line Depth", desc: "We dig to 36 inches minimum. Your slabs and footings won't heave when January hits Rochester." },
               { title: "Bobcat On-Site", desc: "Full excavation capability. We grade, dig, and prep your site — you don't need a separate contractor." },
-              { title: "Owner-Operated", desc: "Scott oversees every pour. You talk to the guy doing the work, not a sales rep in another state." }
+              { title: "Owner-Operated", desc: "Jay oversees every pour. You talk to the guy doing the work, not a sales rep in another state." }
             ].map((feat, i) => (
               <motion.div
                 key={i}
@@ -397,36 +389,17 @@ export default function WintConstructionSite() {
                 What People Say
               </motion.h2>
             </div>
-            <div className="flex items-center gap-2 bg-white border border-black/8 rounded-full px-4 py-2 shadow-sm">
-              <div className="flex text-lg" style={{ color: ACCENT }}>★★★★★</div>
-              <span className="text-sm font-semibold">4.25 / 5</span>
-              <span className="text-xs" style={{ color: `${TEXT}60` }}>• 53 reviews</span>
-            </div>
           </div>
 
-          <div className="space-y-4">
-            {BUSINESS_INFO.testimonials.map((t, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-30px" }}
-                transition={{ duration: 0.4, delay: idx * 0.06 }}
-                className="bg-white rounded-xl p-6 sm:p-8 border border-black/6 shadow-sm flex flex-col sm:flex-row gap-4 sm:gap-8 items-start"
-              >
-                <div className="flex-shrink-0 flex text-sm gap-0.5" style={{ color: ACCENT }}>
-                  {Array.from({ length: t.stars }, (_, i) => <span key={i}>★</span>)}
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm sm:text-base leading-relaxed italic" style={{ color: `${TEXT}cc` }}>"{t.text}"</p>
-                  <div className="mt-3 flex items-center gap-3 text-xs" style={{ color: `${TEXT}70` }}>
-                    <span className="font-bold" style={{ color: TEXT }}>{t.author}</span>
-                    <span>•</span>
-                    <span>{t.location}</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+          <div className="bg-white rounded-2xl border border-black/8 shadow-sm p-10 sm:p-14 text-center">
+            <div className="flex justify-center text-3xl gap-1 mb-4" style={{ color: ACCENT }}>★★★★★</div>
+            <p className="text-lg sm:text-xl italic leading-relaxed max-w-2xl mx-auto" style={{ color: `${TEXT}cc` }}>
+              "Wint Constructors is a new company building its reputation one pour at a time. We let our concrete speak for itself — check out the portfolio above and call Jay for references."
+            </p>
+            <div className="mt-6 text-sm font-semibold" style={{ color: TEXT }}>— Jay Wint, Owner</div>
+            <p className="mt-4 text-xs" style={{ color: `${TEXT}60` }}>
+              ROBEX Member &nbsp;•&nbsp; DOT Registered &nbsp;•&nbsp; Rochester, NY
+            </p>
           </div>
         </div>
       </section>
@@ -444,7 +417,7 @@ export default function WintConstructionSite() {
               transition={{ duration: 0.4 }}
               className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
             >
-              Talk to Scott Directly
+              Talk to Jay Directly
             </motion.h2>
             <p className="text-white/50 text-sm leading-relaxed mb-8 max-w-md">
               Every slab is different. We come out, look at your grade, check drainage, and give you an honest quote. No call centers, no automated systems — just the guy who'll oversee your pour.
@@ -452,33 +425,18 @@ export default function WintConstructionSite() {
 
             <div className="space-y-4 mb-8">
               <div className="flex items-start gap-4 p-4 rounded-xl border border-white/10">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${ACCENT}20`, color: ACCENT }}>SC</div>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${ACCENT}20`, color: ACCENT }}>JW</div>
                 <div>
-                  <span className="font-bold text-white block">{BUSINESS_INFO.contacts.concrete.name}</span>
-                  <span className="text-xs text-white/40 block">Concrete, Flatwork & Excavation</span>
-                  <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="text-sm font-semibold mt-1 block" style={{ color: ACCENT }}>{BUSINESS_INFO.contacts.concrete.phone}</a>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-4 rounded-xl border border-white/10">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${ACCENT}20`, color: ACCENT }}>AR</div>
-                <div>
-                  <span className="font-bold text-white block">{BUSINESS_INFO.contacts.commercial.name}</span>
-                  <span className="text-xs text-white/40 block">Commercial Contracting</span>
-                  <a href={`tel:${BUSINESS_INFO.contacts.commercial.phone}`} className="text-sm font-semibold mt-1 block" style={{ color: ACCENT }}>{BUSINESS_INFO.contacts.commercial.phone}</a>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-4 rounded-xl border border-white/10">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${ACCENT}20`, color: ACCENT }}>CJ</div>
-                <div>
-                  <span className="font-bold text-white block">{BUSINESS_INFO.contacts.residential.name}</span>
-                  <span className="text-xs text-white/40 block">Residential & Scheduling</span>
-                  <a href={`tel:${BUSINESS_INFO.contacts.residential.phone}`} className="text-sm font-semibold mt-1 block" style={{ color: ACCENT }}>{BUSINESS_INFO.contacts.residential.phone}</a>
+                  <span className="font-bold text-white block">{BUSINESS_INFO.contacts.primary.name}</span>
+                  <span className="text-xs text-white/40 block">Owner — Concrete, Excavation & General Contracting</span>
+                  <a href={`tel:${BUSINESS_INFO.contacts.primary.phone}`} className="text-sm font-semibold mt-1 block" style={{ color: ACCENT }}>{BUSINESS_INFO.contacts.primary.phone}</a>
+                  <a href={`mailto:${BUSINESS_INFO.contacts.primary.email}`} className="text-xs text-white/40 hover:text-white/60 mt-0.5 block">{BUSINESS_INFO.contacts.primary.email}</a>
                 </div>
               </div>
             </div>
 
-            <a href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`} className="text-white font-bold px-8 py-4 rounded-lg transition-all active:scale-95 text-center text-base shadow-lg self-start" style={{ background: ACCENT }}>
-              Call Now for Free Estimate
+            <a href={`tel:${BUSINESS_INFO.contacts.primary.phone}`} className="text-white font-bold px-8 py-4 rounded-lg transition-all active:scale-95 text-center text-base shadow-lg self-start" style={{ background: ACCENT }}>
+              Call Jay for Free Estimate
             </a>
           </div>
 
@@ -498,8 +456,8 @@ export default function WintConstructionSite() {
           </div>
         </div>
         <div className="text-xs space-y-1">
-          <p>Wint Construction &nbsp;•&nbsp; w/ Scott's Landscape & Fence</p>
-          <p>PO Box 60406 &nbsp;•&nbsp; Rochester, NY 14606</p>
+          <p>Wint Constructors Inc.</p>
+          <p>{BUSINESS_INFO.address}</p>
           <p className="pt-2" style={{ color: 'rgba(255,255,255,0.15)' }}>Built by ZM Graphics</p>
         </div>
       </footer>
@@ -507,18 +465,18 @@ export default function WintConstructionSite() {
       {/* ═══ MOBILE BOTTOM NAV ═══ */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 backdrop-blur-md border-t border-white/10 px-4 py-3 z-50 flex gap-2 items-center pb-safe" style={{ background: 'rgba(26,26,26,0.97)' }}>
         <a
-          href={`tel:${BUSINESS_INFO.contacts.concrete.phone}`}
+          href={`tel:${BUSINESS_INFO.contacts.primary.phone}`}
           className="flex-1 border border-white/15 text-white rounded-xl py-3 px-2 text-center text-xs font-bold tracking-tight"
           style={{ background: 'rgba(255,255,255,0.08)' }}
         >
-          Call Scott
+          Call Jay
         </a>
         <a
-          href={`tel:${BUSINESS_INFO.contacts.commercial.phone}`}
+          href={`mailto:${BUSINESS_INFO.contacts.primary.email}`}
           className="flex-1 border border-white/15 text-white rounded-xl py-3 px-2 text-center text-xs font-bold tracking-tight"
           style={{ background: 'rgba(255,255,255,0.08)' }}
         >
-          Call Aaron
+          Email Jay
         </a>
         <a
           href="#contact"
